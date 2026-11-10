@@ -1,0 +1,2 @@
+﻿id,source,source_row,name,smiles,canonical,mw,logp,hbd,hba,psa,label
+compound:tmy0,compound,2,tmy0,N1C2=C(C3=CC=CC=C3C1)C=CC=C2c9ncc[nH]9,c1ccc2c(c1)CNc1c(-c3ncc[nH]3)cccc1-2,247.301,3.669,2,2,40.71,active

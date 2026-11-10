@@ -1,0 +1,1418 @@
+[
+  [
+    {
+      "text": "软件操作说明书",
+      "kind": "h1",
+      "source_page": 1
+    },
+    {
+      "text": "CHEM ATLAS · 用户操作与功能说明",
+      "kind": "p",
+      "source_page": 1
+    },
+    {
+      "text": "化合物数据与可解释筛选系统 V1.0",
+      "kind": "h2",
+      "source_page": 1
+    },
+    {
+      "text": "文档鉴别材料 · 真实运行界面与操作流程",
+      "kind": "p",
+      "source_page": 1
+    },
+    {
+      "text": "编制日期：2026-11-10",
+      "kind": "p",
+      "source_page": 1
+    },
+    {
+      "text": "运行方式：本地浏览器 / Python 服务 / SQLite 索引",
+      "kind": "p",
+      "source_page": 1
+    },
+    {
+      "text": "软件名称与版本为本项目当前标识，提交前请与申请表一致。",
+      "kind": "p",
+      "source_page": 1
+    },
+    {
+      "text": "界面证据通过实际浏览器操作采集，原图和 SHA256 清单随文档保留。",
+      "kind": "p",
+      "source_page": 1
+    }
+  ],
+  [
+    {
+      "text": "一、软件概述与功能范围",
+      "kind": "h1",
+      "source_page": 2
+    },
+    {
+      "text": "本软件面向化合物数据整理与早期研究筛选，读取项目现有化合物、血脑屏障标签及 DrugBank 资料，将数据查询、分子结构计算、相似结构探索、可解释筛选和研究证据归档串联为一个本地工作流程。",
+      "kind": "p",
+      "source_page": 2
+    },
+    {
+      "text": "功能模块 ｜ 主要操作与输出",
+      "kind": "table",
+      "source_page": 2
+    },
+    {
+      "text": "数据总览 ｜ 统计三个数据来源、可解析结构、唯一结构并提供研究入口。",
+      "kind": "table",
+      "source_page": 2
+    },
+    {
+      "text": "多源检索与详情 ｜ 按来源、关键词和标签查询、分页、CSV 导出；展示来源行号、结构、计算性质与原始字段。",
+      "kind": "table",
+      "source_page": 2
+    },
+    {
+      "text": "相似结构探索 ｜ 输入或带入 SMILES，设置阈值，以 Morgan 指纹和 Tanimoto 系数计算相似结构。",
+      "kind": "table",
+      "source_page": 2
+    },
+    {
+      "text": "可解释筛选 ｜ 同时应用五项性质上限，列出命中依据，导出完整命中结果。",
+      "kind": "table",
+      "source_page": 2
+    },
+    {
+      "text": "候选分子对比 ｜ 最多三个候选并列展示结构和性质，支持移除与清空。",
+      "kind": "table",
+      "source_page": 2
+    },
+    {
+      "text": "质量与溯源 ｜ 展示非法、缺失、源内重复统计及来源文件 SHA256。",
+      "kind": "table",
+      "source_page": 2
+    },
+    {
+      "text": "筛选记录 ｜ 保存参数、命中标识、数据指纹及库版本，查看历史和导出 JSON。",
+      "kind": "table",
+      "source_page": 2
+    },
+    {
+      "text": "软件不包含训练模型、活性预测或自动实验决策。activity 与 BBB 为原始来源标签。原有采集和片段脚本继续保留，但不属于本次工作台界面功能。",
+      "kind": "p",
+      "source_page": 2
+    }
+  ],
+  [
+    {
+      "text": "二、运行环境与启动操作",
+      "kind": "h1",
+      "source_page": 3
+    },
+    {
+      "text": "项目 ｜ 本次实现与验证环境",
+      "kind": "table",
+      "source_page": 3
+    },
+    {
+      "text": "操作系统 ｜ Linux，本项目目录 /home/mytu/Project/personal/chemical_database",
+      "kind": "table",
+      "source_page": 3
+    },
+    {
+      "text": "解释器 ｜ Python 3.12；建议独立虚拟环境",
+      "kind": "table",
+      "source_page": 3
+    },
+    {
+      "text": "化学计算 ｜ RDKit 2026.09.1",
+      "kind": "table",
+      "source_page": 3
+    },
+    {
+      "text": "其他依赖 ｜ openpyxl 读取 XLSX；SQLite 随 Python 提供；Playwright 用于截图和 PDF",
+      "kind": "table",
+      "source_page": 3
+    },
+    {
+      "text": "浏览器 ｜ Google Chrome；页面无需远程脚本、字体或在线接口",
+      "kind": "table",
+      "source_page": 3
+    },
+    {
+      "text": "确认三个源数据文件保持原目录结构，安装 requirements.txt 列出的依赖。",
+      "kind": "li",
+      "source_page": 3
+    },
+    {
+      "text": "在项目根目录执行 ./run.sh。可通过 CHEMDB_PYTHON 指定解释器。",
+      "kind": "li",
+      "source_page": 3
+    },
+    {
+      "text": "首次运行生成 runtime/chemical.sqlite 索引，终端显示服务地址后再打开页面。",
+      "kind": "li",
+      "source_page": 3
+    },
+    {
+      "text": "浏览器访问 http://127.0.0.1:8765。仅监听本地回环地址，无登录步骤。",
+      "kind": "li",
+      "source_page": 3
+    },
+    {
+      "text": "关闭页面不影响服务；在运行终端按 Ctrl+C 停止。重新启动后筛选历史继续保留。",
+      "kind": "li",
+      "source_page": 3
+    },
+    {
+      "text": "端口占用时可执行 ./run.sh --port 8766，并访问相应地址。源数据变更时再次启动会重建对应索引；历史记录中的旧文件指纹仍保留。",
+      "kind": "p",
+      "source_page": 3
+    }
+  ],
+  [
+    {
+      "text": "三、数据口径与连续操作路线",
+      "kind": "h1",
+      "source_page": 4
+    },
+    {
+      "text": "数据文件 ｜ 记录数 ｜ 非法结构 ｜ 缺失结构 ｜ 源内重复",
+      "kind": "table",
+      "source_page": 4
+    },
+    {
+      "text": "Dataset/BBB_10648.csv ｜ 10,648 ｜ 2 ｜ 0 ｜ 1",
+      "kind": "table",
+      "source_page": 4
+    },
+    {
+      "text": "compound_info.csv ｜ 2,424 ｜ 0 ｜ 0 ｜ 0",
+      "kind": "table",
+      "source_page": 4
+    },
+    {
+      "text": "DrugBankAll.xlsx ｜ 14,313 ｜ 0 ｜ 0 ｜ 0",
+      "kind": "table",
+      "source_page": 4
+    },
+    {
+      "text": "记录数按来源行统计，保留重复来源；唯一结构按 RDKit 规范化 SMILES 统计。DrugBank 不含 SMILES，未将其所有条目计入缺失结构。非法结构不参与计算筛选。MW 单位为 g/mol，TPSA 为 Å²，LogP 无量纲，HBD/HBA 分别为氢键供体/受体计数。",
+      "kind": "p",
+      "source_page": 4
+    },
+    {
+      "text": "推荐连续流程：启动软件 → 核对总览 → 检索 tmy0 → 阅读结构与来源 → 将其带入相似探索 → 设置五项性质条件 → 执行并导出筛选 → 加入候选对比 → 保存筛选记录 → 核对来源指纹 → 下载证据 JSON。",
+      "kind": "p",
+      "source_page": 4
+    },
+    {
+      "text": "DrugBank 使用独立资料阅读路径：选择该来源 → 按 ID 或原文关键词查询 → 查看药理资料字段。不存在结构时，结构计算与对比功能不对该记录启用。",
+      "kind": "p",
+      "source_page": 4
+    },
+    {
+      "text": "下列操作章节配有全页面原始截图。截图文件以 2 倍像素密度保存，无重绘、拼接或结果替换。长页面采用完整页面截图，以保持功能区域完整。",
+      "kind": "p",
+      "source_page": 4
+    }
+  ],
+  [
+    {
+      "text": "四、功能操作 01 · 数据总览与研究入口",
+      "kind": "h1",
+      "source_page": 5
+    },
+    {
+      "text": "启动服务后，在浏览器打开本地地址。左侧导航进入数据总览。",
+      "kind": "li",
+      "source_page": 5
+    },
+    {
+      "text": "核对全部来源记录、可解析结构、唯一结构及 BBB 标签数量。",
+      "kind": "li",
+      "source_page": 5
+    },
+    {
+      "text": "通过数据资产分布确认三个文件；点击开始检索或进入可解释筛选继续研究。",
+      "kind": "li",
+      "source_page": 5
+    },
+    {
+      "text": "操作结果与说明",
+      "kind": "h2",
+      "source_page": 5
+    },
+    {
+      "text": "总记录数应为 27,385，来源分别为 2,424、10,648 和 14,313 条。结构数以实际解析结果为准。",
+      "kind": "p",
+      "source_page": 5
+    },
+    {
+      "text": "截图证据",
+      "kind": "h2",
+      "source_page": 5
+    },
+    {
+      "text": "对应本页完整界面截图：screenshots/01-overview.png",
+      "kind": "p",
+      "source_page": 5
+    },
+    {
+      "text": "实际访问地址：http://127.0.0.1:8876/#overview",
+      "kind": "p",
+      "source_page": 5
+    },
+    {
+      "text": "采集时间（UTC）：2026-11-10T05:51:05.745942+00:00",
+      "kind": "p",
+      "source_page": 5
+    },
+    {
+      "text": "原始尺寸：2560 × 1728 像素",
+      "kind": "p",
+      "source_page": 5
+    },
+    {
+      "text": "SHA256：dfc81a1b1fde0f45a1df56aa994cb49bd5869a834fb3c135839a707fa77e9906",
+      "kind": "p",
+      "source_page": 5
+    }
+  ],
+  [
+    {
+      "text": "图 01 · 数据总览与研究入口",
+      "kind": "h1",
+      "source_page": 6
+    }
+  ],
+  [
+    {
+      "text": "四、功能操作 02 · 多源检索与分页",
+      "kind": "h1",
+      "source_page": 7
+    },
+    {
+      "text": "点击多源检索，选择化合物数据集。",
+      "kind": "li",
+      "source_page": 7
+    },
+    {
+      "text": "关键词支持 ID、SMILES 与来源原文的文本包含匹配；标签可选 active、inactive 或 BBB 0/1。",
+      "kind": "li",
+      "source_page": 7
+    },
+    {
+      "text": "点击查询；下方查看结果总数、性质、来源标签。点击下一页继续浏览。",
+      "kind": "li",
+      "source_page": 7
+    },
+    {
+      "text": "操作结果与说明",
+      "kind": "h2",
+      "source_page": 7
+    },
+    {
+      "text": "默认每页 8 条；表格显示计算性质，记录名称可进入详情。来源标签与预测结果严格区分。",
+      "kind": "p",
+      "source_page": 7
+    },
+    {
+      "text": "截图证据",
+      "kind": "h2",
+      "source_page": 7
+    },
+    {
+      "text": "对应本页完整界面截图：screenshots/02-search.png",
+      "kind": "p",
+      "source_page": 7
+    },
+    {
+      "text": "实际访问地址：http://127.0.0.1:8876/#explore",
+      "kind": "p",
+      "source_page": 7
+    },
+    {
+      "text": "采集时间（UTC）：2026-11-10T05:51:06.254327+00:00",
+      "kind": "p",
+      "source_page": 7
+    },
+    {
+      "text": "原始尺寸：2560 × 2084 像素",
+      "kind": "p",
+      "source_page": 7
+    },
+    {
+      "text": "SHA256：f8ee398acd91269f00d5b1410f631f7393912dca6cea4f7973a6e0b53f9aab73",
+      "kind": "p",
+      "source_page": 7
+    }
+  ],
+  [
+    {
+      "text": "图 02 · 多源检索与分页",
+      "kind": "h1",
+      "source_page": 8
+    }
+  ],
+  [
+    {
+      "text": "四、功能操作 03 · 关键词定位与查询结果导出",
+      "kind": "h1",
+      "source_page": 9
+    },
+    {
+      "text": "在化合物数据集中输入 tmy0，点击查询。",
+      "kind": "li",
+      "source_page": 9
+    },
+    {
+      "text": "确认只返回相应记录，点击导出全部匹配 CSV。",
+      "kind": "li",
+      "source_page": 9
+    },
+    {
+      "text": "在下载目录查看 CSV；文件包含全部匹配记录，不受当前页限制。",
+      "kind": "li",
+      "source_page": 9
+    },
+    {
+      "text": "操作结果与说明",
+      "kind": "h2",
+      "source_page": 9
+    },
+    {
+      "text": "实际导出文件包含记录 ID、来源、原文件行号、SMILES、标准化结构、性质和来源标签。",
+      "kind": "p",
+      "source_page": 9
+    },
+    {
+      "text": "截图证据",
+      "kind": "h2",
+      "source_page": 9
+    },
+    {
+      "text": "对应本页完整界面截图：screenshots/03-search-filtered.png",
+      "kind": "p",
+      "source_page": 9
+    },
+    {
+      "text": "实际访问地址：http://127.0.0.1:8876/#explore",
+      "kind": "p",
+      "source_page": 9
+    },
+    {
+      "text": "采集时间（UTC）：2026-11-10T05:51:06.906328+00:00",
+      "kind": "p",
+      "source_page": 9
+    },
+    {
+      "text": "原始尺寸：2560 × 1700 像素",
+      "kind": "p",
+      "source_page": 9
+    },
+    {
+      "text": "SHA256：ba1e82169cf23b78dd6bf7c7e488a7e97da78b79926bb950659d401efe62eea0",
+      "kind": "p",
+      "source_page": 9
+    }
+  ],
+  [
+    {
+      "text": "图 03 · 关键词定位与查询结果导出",
+      "kind": "h1",
+      "source_page": 10
+    }
+  ],
+  [
+    {
+      "text": "四、功能操作 04 · 分子结构详情与原字段核对",
+      "kind": "h1",
+      "source_page": 11
+    },
+    {
+      "text": "点击检索结果中的 tmy0。查看二维结构、规范化 SMILES 和五项计算性质。",
+      "kind": "li",
+      "source_page": 11
+    },
+    {
+      "text": "在来源定位区确认文件及行号，点击右侧字段名称展开原始值。",
+      "kind": "li",
+      "source_page": 11
+    },
+    {
+      "text": "页面下方列出相同规范化结构的其他来源记录；可加入对比或将当前结构带入相似探索。",
+      "kind": "li",
+      "source_page": 11
+    },
+    {
+      "text": "操作结果与说明",
+      "kind": "h2",
+      "source_page": 11
+    },
+    {
+      "text": "主表性质来自统一 RDKit 计算，原文件性质仍保留在详情中；并列呈现便于发现计算口径差异。",
+      "kind": "p",
+      "source_page": 11
+    },
+    {
+      "text": "截图证据",
+      "kind": "h2",
+      "source_page": 11
+    },
+    {
+      "text": "对应本页完整界面截图：screenshots/04-detail.png",
+      "kind": "p",
+      "source_page": 11
+    },
+    {
+      "text": "实际访问地址：http://127.0.0.1:8876/#detail/compound%3Atmy0",
+      "kind": "p",
+      "source_page": 11
+    },
+    {
+      "text": "采集时间（UTC）：2026-11-10T05:51:07.325929+00:00",
+      "kind": "p",
+      "source_page": 11
+    },
+    {
+      "text": "原始尺寸：2560 × 1996 像素",
+      "kind": "p",
+      "source_page": 11
+    },
+    {
+      "text": "SHA256：cbcb1d6077efdc9354111a87a1caa419c282e7050815d5601e0b5553d7d3e891",
+      "kind": "p",
+      "source_page": 11
+    }
+  ],
+  [
+    {
+      "text": "图 04 · 分子结构详情与原字段核对",
+      "kind": "h1",
+      "source_page": 12
+    }
+  ],
+  [
+    {
+      "text": "四、功能操作 05 · Morgan 指纹相似结构探索",
+      "kind": "h1",
+      "source_page": 13
+    },
+    {
+      "text": "从分子详情进入相似探索，SMILES 自动带入。也可手动输入其他有效结构。",
+      "kind": "li",
+      "source_page": 13
+    },
+    {
+      "text": "设置最低 Tanimoto 相似度（0 至 1），点击计算相似分子。",
+      "kind": "li",
+      "source_page": 13
+    },
+    {
+      "text": "结果按相似度降序排列，显示结构图、性质和来源；展开其余结果可查看更多匹配。",
+      "kind": "li",
+      "source_page": 13
+    },
+    {
+      "text": "操作结果与说明",
+      "kind": "h2",
+      "source_page": 13
+    },
+    {
+      "text": "自身结构相似度为 1.000。接口最多返回前 60 条，页面先展示 6 条，其余可展开。相似度不代表药效。",
+      "kind": "p",
+      "source_page": 13
+    },
+    {
+      "text": "截图证据",
+      "kind": "h2",
+      "source_page": 13
+    },
+    {
+      "text": "对应本页完整界面截图：screenshots/05-similarity.png",
+      "kind": "p",
+      "source_page": 13
+    },
+    {
+      "text": "实际访问地址：http://127.0.0.1:8876/#similar",
+      "kind": "p",
+      "source_page": 13
+    },
+    {
+      "text": "采集时间（UTC）：2026-11-10T05:51:07.801108+00:00",
+      "kind": "p",
+      "source_page": 13
+    },
+    {
+      "text": "原始尺寸：2560 × 2430 像素",
+      "kind": "p",
+      "source_page": 13
+    },
+    {
+      "text": "SHA256：85e121f642adfcf0a26beb01dec2e759d2b983306606a277d7dc9b4785c8a0ad",
+      "kind": "p",
+      "source_page": 13
+    }
+  ],
+  [
+    {
+      "text": "图 05 · Morgan 指纹相似结构探索",
+      "kind": "h1",
+      "source_page": 14
+    }
+  ],
+  [
+    {
+      "text": "四、功能操作 06 · 输入校验与错误恢复",
+      "kind": "h1",
+      "source_page": 15
+    },
+    {
+      "text": "在结构输入框填入无法解析的 SMILES，点击计算。",
+      "kind": "li",
+      "source_page": 15
+    },
+    {
+      "text": "查看错误提示，检查元素符号、括号与环闭合标记。",
+      "kind": "li",
+      "source_page": 15
+    },
+    {
+      "text": "改回有效 SMILES 后重新计算。阈值及筛选数值同样受到取值范围校验。",
+      "kind": "li",
+      "source_page": 15
+    },
+    {
+      "text": "操作结果与说明",
+      "kind": "h2",
+      "source_page": 15
+    },
+    {
+      "text": "系统显示解析失败原因，保持输入表单，允许用户纠正后继续；不会展示伪造的分子结果。",
+      "kind": "p",
+      "source_page": 15
+    },
+    {
+      "text": "截图证据",
+      "kind": "h2",
+      "source_page": 15
+    },
+    {
+      "text": "对应本页完整界面截图：screenshots/06-invalid.png",
+      "kind": "p",
+      "source_page": 15
+    },
+    {
+      "text": "实际访问地址：http://127.0.0.1:8876/#similar",
+      "kind": "p",
+      "source_page": 15
+    },
+    {
+      "text": "采集时间（UTC）：2026-11-10T05:51:08.164127+00:00",
+      "kind": "p",
+      "source_page": 15
+    },
+    {
+      "text": "原始尺寸：2560 × 1700 像素",
+      "kind": "p",
+      "source_page": 15
+    },
+    {
+      "text": "SHA256：a1a4f9dde749038ac4c1f6e044dd4a86f01377e3fbc319af9f98248478bc4e6f",
+      "kind": "p",
+      "source_page": 15
+    }
+  ],
+  [
+    {
+      "text": "图 06 · 输入校验与错误恢复",
+      "kind": "h1",
+      "source_page": 16
+    }
+  ],
+  [
+    {
+      "text": "四、功能操作 07 · 多条件可解释性质筛选",
+      "kind": "h1",
+      "source_page": 17
+    },
+    {
+      "text": "选择化合物数据集，设置 MW≤300、LogP≤3、HBD≤5、HBA≤10、TPSA≤100。",
+      "kind": "li",
+      "source_page": 17
+    },
+    {
+      "text": "点击执行筛选，系统要求全部条件同时满足，等于边界的条目计入。",
+      "kind": "li",
+      "source_page": 17
+    },
+    {
+      "text": "核对每条结果下方列出的五项命中依据；点击加入对比建立候选列表。",
+      "kind": "li",
+      "source_page": 17
+    },
+    {
+      "text": "操作结果与说明",
+      "kind": "h2",
+      "source_page": 17
+    },
+    {
+      "text": "页面预览按 MW 升序的前 6 条命中；全部命中均可导出。默认条件可通过恢复默认条件按钮重置。",
+      "kind": "p",
+      "source_page": 17
+    },
+    {
+      "text": "截图证据",
+      "kind": "h2",
+      "source_page": 17
+    },
+    {
+      "text": "对应本页完整界面截图：screenshots/07-screen.png",
+      "kind": "p",
+      "source_page": 17
+    },
+    {
+      "text": "实际访问地址：http://127.0.0.1:8876/#screen",
+      "kind": "p",
+      "source_page": 17
+    },
+    {
+      "text": "采集时间（UTC）：2026-11-10T05:51:08.629165+00:00",
+      "kind": "p",
+      "source_page": 17
+    },
+    {
+      "text": "原始尺寸：2560 × 2436 像素",
+      "kind": "p",
+      "source_page": 17
+    },
+    {
+      "text": "SHA256：83bd0f54c03123adfbdfb1febee168cabfc00cd605014a0c6979ff2f8f409d90",
+      "kind": "p",
+      "source_page": 17
+    }
+  ],
+  [
+    {
+      "text": "图 07 · 多条件可解释性质筛选",
+      "kind": "h1",
+      "source_page": 18
+    }
+  ],
+  [
+    {
+      "text": "四、功能操作 08 · 归档筛选条件与数据版本证据",
+      "kind": "h1",
+      "source_page": 19
+    },
+    {
+      "text": "筛选完成后，在名称框输入“低分子量候选初筛 · 操作示例”，点击保存筛选记录。",
+      "kind": "li",
+      "source_page": 19
+    },
+    {
+      "text": "系统保存当前已执行结果的参数和全部命中 ID，并进入归档详情。",
+      "kind": "li",
+      "source_page": 19
+    },
+    {
+      "text": "核对筛选条件、命中数、RDKit 版本及三份来源文件校验值，点击下载证据 JSON。",
+      "kind": "li",
+      "source_page": 19
+    },
+    {
+      "text": "操作结果与说明",
+      "kind": "h2",
+      "source_page": 19
+    },
+    {
+      "text": "JSON 保留全部命中标识、前 100 条结果快照和来源指纹；名称及时间由实际操作产生。",
+      "kind": "p",
+      "source_page": 19
+    },
+    {
+      "text": "截图证据",
+      "kind": "h2",
+      "source_page": 19
+    },
+    {
+      "text": "对应本页完整界面截图：screenshots/08-run-detail.png",
+      "kind": "p",
+      "source_page": 19
+    },
+    {
+      "text": "实际访问地址：http://127.0.0.1:8876/#run/1",
+      "kind": "p",
+      "source_page": 19
+    },
+    {
+      "text": "采集时间（UTC）：2026-11-10T05:51:09.342686+00:00",
+      "kind": "p",
+      "source_page": 19
+    },
+    {
+      "text": "原始尺寸：2560 × 1742 像素",
+      "kind": "p",
+      "source_page": 19
+    },
+    {
+      "text": "SHA256：ac93ebd310e0d842b98eef04259fb8fe0f69d17d92c2358fc32dfbb2053920f0",
+      "kind": "p",
+      "source_page": 19
+    }
+  ],
+  [
+    {
+      "text": "图 08 · 归档筛选条件与数据版本证据",
+      "kind": "h1",
+      "source_page": 20
+    }
+  ],
+  [
+    {
+      "text": "四、功能操作 09 · 候选结构与性质横向对比",
+      "kind": "h1",
+      "source_page": 21
+    },
+    {
+      "text": "从检索或筛选页加入最多三个候选，点击候选分子对比。",
+      "kind": "li",
+      "source_page": 21
+    },
+    {
+      "text": "上方并列显示结构和 SMILES，下方比较五项性质及来源标签。",
+      "kind": "li",
+      "source_page": 21
+    },
+    {
+      "text": "点击移除删除单个候选，点击清空候选清除列表；该列表保存于当前浏览器。",
+      "kind": "li",
+      "source_page": 21
+    },
+    {
+      "text": "操作结果与说明",
+      "kind": "h2",
+      "source_page": 21
+    },
+    {
+      "text": "候选之间使用同一计算口径，原始标签只作来源信息，不据此给出跨实验效力排名。",
+      "kind": "p",
+      "source_page": 21
+    },
+    {
+      "text": "截图证据",
+      "kind": "h2",
+      "source_page": 21
+    },
+    {
+      "text": "对应本页完整界面截图：screenshots/09-compare.png",
+      "kind": "p",
+      "source_page": 21
+    },
+    {
+      "text": "实际访问地址：http://127.0.0.1:8876/#compare",
+      "kind": "p",
+      "source_page": 21
+    },
+    {
+      "text": "采集时间（UTC）：2026-11-10T05:51:09.852998+00:00",
+      "kind": "p",
+      "source_page": 21
+    },
+    {
+      "text": "原始尺寸：2560 × 1956 像素",
+      "kind": "p",
+      "source_page": 21
+    },
+    {
+      "text": "SHA256：7e4e0db8a9f5aee605b95ca945044885b38752236b85c4cb23ea1b33110f5a9f",
+      "kind": "p",
+      "source_page": 21
+    }
+  ],
+  [
+    {
+      "text": "图 09 · 候选结构与性质横向对比",
+      "kind": "h1",
+      "source_page": 22
+    }
+  ],
+  [
+    {
+      "text": "四、功能操作 10 · 数据质量审计与来源追踪",
+      "kind": "h1",
+      "source_page": 23
+    },
+    {
+      "text": "进入质量与溯源，检查来源文件数、非法结构数、缺失数和源内重复数。",
+      "kind": "li",
+      "source_page": 23
+    },
+    {
+      "text": "核对各文件的导入数量、导入日期与 SHA256。",
+      "kind": "li",
+      "source_page": 23
+    },
+    {
+      "text": "阅读质量规则，理解重复行保留、原字段并存以及完全相同结构关联的处理方式。",
+      "kind": "li",
+      "source_page": 23
+    },
+    {
+      "text": "操作结果与说明",
+      "kind": "h2",
+      "source_page": 23
+    },
+    {
+      "text": "DrugBank 无 SMILES 是来源设计，不计入缺失结构。重复统计按源内规范化结构或无结构记录的 ID 进行。",
+      "kind": "p",
+      "source_page": 23
+    },
+    {
+      "text": "截图证据",
+      "kind": "h2",
+      "source_page": 23
+    },
+    {
+      "text": "对应本页完整界面截图：screenshots/10-quality.png",
+      "kind": "p",
+      "source_page": 23
+    },
+    {
+      "text": "实际访问地址：http://127.0.0.1:8876/#quality",
+      "kind": "p",
+      "source_page": 23
+    },
+    {
+      "text": "采集时间（UTC）：2026-11-10T05:51:10.560192+00:00",
+      "kind": "p",
+      "source_page": 23
+    },
+    {
+      "text": "原始尺寸：2560 × 1740 像素",
+      "kind": "p",
+      "source_page": 23
+    },
+    {
+      "text": "SHA256：bd301c64de59d8c0be188739e7ba0d54ced13b6606fe23afe037890c58ff189b",
+      "kind": "p",
+      "source_page": 23
+    }
+  ],
+  [
+    {
+      "text": "图 10 · 数据质量审计与来源追踪",
+      "kind": "h1",
+      "source_page": 24
+    }
+  ],
+  [
+    {
+      "text": "四、功能操作 11 · 筛选历史查询与证据下载",
+      "kind": "h1",
+      "source_page": 25
+    },
+    {
+      "text": "点击筛选记录，查看已保存名称、时间、命中数量和编号。",
+      "kind": "li",
+      "source_page": 25
+    },
+    {
+      "text": "点击名称进入归档详情，或直接点击导出 JSON。",
+      "kind": "li",
+      "source_page": 25
+    },
+    {
+      "text": "需要新的条件组合时，点击创建筛选记录，重新执行并另存一条记录。",
+      "kind": "li",
+      "source_page": 25
+    },
+    {
+      "text": "操作结果与说明",
+      "kind": "h2",
+      "source_page": 25
+    },
+    {
+      "text": "历史记录保存在 SQLite；网页刷新不会丢失。记录不可在界面覆盖，以保留每次筛选证据。",
+      "kind": "p",
+      "source_page": 25
+    },
+    {
+      "text": "截图证据",
+      "kind": "h2",
+      "source_page": 25
+    },
+    {
+      "text": "对应本页完整界面截图：screenshots/11-history.png",
+      "kind": "p",
+      "source_page": 25
+    },
+    {
+      "text": "实际访问地址：http://127.0.0.1:8876/#history",
+      "kind": "p",
+      "source_page": 25
+    },
+    {
+      "text": "采集时间（UTC）：2026-11-10T05:51:10.814627+00:00",
+      "kind": "p",
+      "source_page": 25
+    },
+    {
+      "text": "原始尺寸：2560 × 1700 像素",
+      "kind": "p",
+      "source_page": 25
+    },
+    {
+      "text": "SHA256：2a209ec939a8a735aec4baa381e86ebabc46a351dc37d0420ed5df8a7b17ea82",
+      "kind": "p",
+      "source_page": 25
+    }
+  ],
+  [
+    {
+      "text": "图 11 · 筛选历史查询与证据下载",
+      "kind": "h1",
+      "source_page": 26
+    }
+  ],
+  [
+    {
+      "text": "四、功能操作 12 · 血脑屏障来源标签查询",
+      "kind": "h1",
+      "source_page": 27
+    },
+    {
+      "text": "在多源检索中切换血脑屏障数据集，将关键词清空。",
+      "kind": "li",
+      "source_page": 27
+    },
+    {
+      "text": "选择 BBB 1 标签并查询；可改选 BBB 0 或全部标签进行比较。",
+      "kind": "li",
+      "source_page": 27
+    },
+    {
+      "text": "点击记录名称查看来源行及结构，必要时加入候选对比。",
+      "kind": "li",
+      "source_page": 27
+    },
+    {
+      "text": "操作结果与说明",
+      "kind": "h2",
+      "source_page": 27
+    },
+    {
+      "text": "BBB 数值直接来自数据文件，本软件不将标签解释为新模型的预测输出。",
+      "kind": "p",
+      "source_page": 27
+    },
+    {
+      "text": "截图证据",
+      "kind": "h2",
+      "source_page": 27
+    },
+    {
+      "text": "对应本页完整界面截图：screenshots/12-bbb.png",
+      "kind": "p",
+      "source_page": 27
+    },
+    {
+      "text": "实际访问地址：http://127.0.0.1:8876/#explore",
+      "kind": "p",
+      "source_page": 27
+    },
+    {
+      "text": "采集时间（UTC）：2026-11-10T05:51:11.266294+00:00",
+      "kind": "p",
+      "source_page": 27
+    },
+    {
+      "text": "原始尺寸：2560 × 2084 像素",
+      "kind": "p",
+      "source_page": 27
+    },
+    {
+      "text": "SHA256：76ed075d7185f97541c344a665a4be6a6b555daa6af4023f00983bd5dbad3f06",
+      "kind": "p",
+      "source_page": 27
+    }
+  ],
+  [
+    {
+      "text": "图 12 · 血脑屏障来源标签查询",
+      "kind": "h1",
+      "source_page": 28
+    }
+  ],
+  [
+    {
+      "text": "四、功能操作 13 · DrugBank 药物资料检索",
+      "kind": "h1",
+      "source_page": 29
+    },
+    {
+      "text": "选择 DrugBank 资料，来源标签切换为全部标签。",
+      "kind": "li",
+      "source_page": 29
+    },
+    {
+      "text": "输入 DB00001 后查询；也可按描述或机制中的英文词查询。",
+      "kind": "li",
+      "source_page": 29
+    },
+    {
+      "text": "结构性质显示为横线，加入对比按钮不可用。点击记录名称阅读原始资料。",
+      "kind": "li",
+      "source_page": 29
+    },
+    {
+      "text": "操作结果与说明",
+      "kind": "h2",
+      "source_page": 29
+    },
+    {
+      "text": "DrugBank 文件没有 SMILES，本版本只提供资料检索和原文字段查看。",
+      "kind": "p",
+      "source_page": 29
+    },
+    {
+      "text": "截图证据",
+      "kind": "h2",
+      "source_page": 29
+    },
+    {
+      "text": "对应本页完整界面截图：screenshots/13-drugbank.png",
+      "kind": "p",
+      "source_page": 29
+    },
+    {
+      "text": "实际访问地址：http://127.0.0.1:8876/#explore",
+      "kind": "p",
+      "source_page": 29
+    },
+    {
+      "text": "采集时间（UTC）：2026-11-10T05:51:11.883013+00:00",
+      "kind": "p",
+      "source_page": 29
+    },
+    {
+      "text": "原始尺寸：2560 × 1700 像素",
+      "kind": "p",
+      "source_page": 29
+    },
+    {
+      "text": "SHA256：a91b9ffe9ca137434a6e7c0449854a04a4f1d230b0c1aa3a3c1e03dfe975503e",
+      "kind": "p",
+      "source_page": 29
+    }
+  ],
+  [
+    {
+      "text": "图 13 · DrugBank 药物资料检索",
+      "kind": "h1",
+      "source_page": 30
+    }
+  ],
+  [
+    {
+      "text": "四、功能操作 14 · DrugBank 原文阅读与字段展开",
+      "kind": "h1",
+      "source_page": 31
+    },
+    {
+      "text": "进入 DB00001 详情，核对来源文件及原文件行号。",
+      "kind": "li",
+      "source_page": 31
+    },
+    {
+      "text": "点击 Descrip、Indication、Mechanism 等字段名称展开原文，再次点击收起。",
+      "kind": "li",
+      "source_page": 31
+    },
+    {
+      "text": "原始数据未提供的字段明确显示为空，不补写推断内容。",
+      "kind": "li",
+      "source_page": 31
+    },
+    {
+      "text": "操作结果与说明",
+      "kind": "h2",
+      "source_page": 31
+    },
+    {
+      "text": "原文按字段呈现，保留来源内容；结构区域明确提示此记录无可计算结构。",
+      "kind": "p",
+      "source_page": 31
+    },
+    {
+      "text": "截图证据",
+      "kind": "h2",
+      "source_page": 31
+    },
+    {
+      "text": "对应本页完整界面截图：screenshots/14-drugbank-detail.png",
+      "kind": "p",
+      "source_page": 31
+    },
+    {
+      "text": "实际访问地址：http://127.0.0.1:8876/#detail/drugbank%3ADB00001",
+      "kind": "p",
+      "source_page": 31
+    },
+    {
+      "text": "采集时间（UTC）：2026-11-10T05:51:12.228041+00:00",
+      "kind": "p",
+      "source_page": 31
+    },
+    {
+      "text": "原始尺寸：2560 × 2332 像素",
+      "kind": "p",
+      "source_page": 31
+    },
+    {
+      "text": "SHA256：861488c4030130d63f570226936c4cbd98a36295e039b2f531fdd6454b0c6f55",
+      "kind": "p",
+      "source_page": 31
+    }
+  ],
+  [
+    {
+      "text": "图 14 · DrugBank 原文阅读与字段展开",
+      "kind": "h1",
+      "source_page": 32
+    }
+  ],
+  [
+    {
+      "text": "四、功能操作 15 · 空结果处理与条件调整",
+      "kind": "h1",
+      "source_page": 33
+    },
+    {
+      "text": "输入不存在的关键词后查询，查看零条结果及调整提示。",
+      "kind": "li",
+      "source_page": 33
+    },
+    {
+      "text": "检查当前数据来源和标签是否过度限制，清空关键词或改选条件后再次查询。",
+      "kind": "li",
+      "source_page": 33
+    },
+    {
+      "text": "无匹配结果时不会补充演示数据；导出可获得仅含表头的 CSV。",
+      "kind": "li",
+      "source_page": 33
+    },
+    {
+      "text": "操作结果与说明",
+      "kind": "h2",
+      "source_page": 33
+    },
+    {
+      "text": "空结果属于正常查询状态，系统保留表单供用户继续操作。",
+      "kind": "p",
+      "source_page": 33
+    },
+    {
+      "text": "截图证据",
+      "kind": "h2",
+      "source_page": 33
+    },
+    {
+      "text": "对应本页完整界面截图：screenshots/15-empty.png",
+      "kind": "p",
+      "source_page": 33
+    },
+    {
+      "text": "实际访问地址：http://127.0.0.1:8876/#explore",
+      "kind": "p",
+      "source_page": 33
+    },
+    {
+      "text": "采集时间（UTC）：2026-11-10T05:51:13.079171+00:00",
+      "kind": "p",
+      "source_page": 33
+    },
+    {
+      "text": "原始尺寸：2560 × 1700 像素",
+      "kind": "p",
+      "source_page": 33
+    },
+    {
+      "text": "SHA256：246ca4c6b40646db006d7490c74d052f1434294174cd266f574ffefd3aafd2d4",
+      "kind": "p",
+      "source_page": 33
+    }
+  ],
+  [
+    {
+      "text": "图 15 · 空结果处理与条件调整",
+      "kind": "h1",
+      "source_page": 34
+    }
+  ],
+  [
+    {
+      "text": "五、技术特点及实现对应关系",
+      "kind": "h1",
+      "source_page": 35
+    },
+    {
+      "text": "技术特点 ｜ 实际实现及边界",
+      "kind": "table",
+      "source_page": 35
+    },
+    {
+      "text": "多源字段保留与结构关联 ｜ 独立保存来源、行号、原始字段和规范化 SMILES。仅结构完全相同时提供关联，不根据名称或描述猜测对应关系。",
+      "kind": "table",
+      "source_page": 35
+    },
+    {
+      "text": "透明的相似结构探索 ｜ Morgan 半径 2、2048 位指纹；Tanimoto 系数；保留来源行，按相似度降序，最多返回前 60 条。",
+      "kind": "table",
+      "source_page": 35
+    },
+    {
+      "text": "可解释多条件筛选 ｜ 统一计算 MW、LogP、HBD、HBA、TPSA，以包含边界的 AND 逻辑筛选；逐项展示数值与阈值。",
+      "kind": "table",
+      "source_page": 35
+    },
+    {
+      "text": "筛选证据归档 ｜ 服务端重新核验条件与命中 ID，保存全部 ID、前 100 条结果快照、来源文件 SHA256 和 RDKit 版本；支持 JSON 复核。",
+      "kind": "table",
+      "source_page": 35
+    },
+    {
+      "text": "计算值与原值并存 ｜ 主表使用统一计算口径，详情保留原始性质字段，便于追踪口径差异。",
+      "kind": "table",
+      "source_page": 35
+    },
+    {
+      "text": "本地可复建索引 ｜ SQLite 持久化；启动时校验来源文件内容指纹，未变更来源复用索引。",
+      "kind": "table",
+      "source_page": 35
+    },
+    {
+      "text": "上述内容描述本软件实际技术实现与组合特点，不作原创算法或法律新颖性认定。第三方库及原始数据来源须按实际权属和许可另行核对。",
+      "kind": "p",
+      "source_page": 35
+    }
+  ],
+  [
+    {
+      "text": "六、源程序量与申请表一致性核对",
+      "kind": "h1",
+      "source_page": 36
+    },
+    {
+      "text": "统计类别 ｜ 文件数 ｜ 物理行数 ｜ 非空行数",
+      "kind": "table",
+      "source_page": 36
+    },
+    {
+      "text": "运行程序 ｜ 6 ｜ 579 ｜ 542",
+      "kind": "table",
+      "source_page": 36
+    },
+    {
+      "text": "验证与文档工具 ｜ 6 ｜ 541 ｜ 502",
+      "kind": "table",
+      "source_page": 36
+    },
+    {
+      "text": "既有离线脚本 ｜ 8 ｜ 332 ｜ 265",
+      "kind": "table",
+      "source_page": 36
+    },
+    {
+      "text": "物理行数按 UTF-8 文本 splitlines() 统计，包含注释及空行；非空行数只排除空白行，并不等同于可执行语句数。数据集、图片、PDF、缓存、第三方依赖和配置说明不计入运行程序。所有逐文件行数与 SHA256 保存在 source-inventory.json 中。",
+      "kind": "p",
+      "source_page": 36
+    },
+    {
+      "text": "运行程序包括 chemdb.py、server.py、web/index.html、web/app.js、web/style.css 和 run.sh。验证和材料生成工具另列；旧采集与片段脚本并非本次界面入口，不与运行程序量混算。",
+      "kind": "p",
+      "source_page": 36
+    }
+  ],
+  [
+    {
+      "text": "七、申请表内容一致性核对",
+      "kind": "h1",
+      "source_page": 37
+    },
+    {
+      "text": "以下核对项用于使材料与实际申请范围保持一致。",
+      "kind": "p",
+      "source_page": 37
+    },
+    {
+      "text": "软件名称及版本：本材料采用“化合物数据与可解释筛选系统 V1.0”，提交时应与申请表及源代码页眉保持一致。",
+      "kind": "li",
+      "source_page": 37
+    },
+    {
+      "text": "主要功能：以本说明书的七个功能模块和实际界面为准；不填写本项目未实现的训练预测、在线抓取或片段生成界面。",
+      "kind": "li",
+      "source_page": 37
+    },
+    {
+      "text": "技术特点：可采用上一节描述，保留算法和数据口径边界。",
+      "kind": "li",
+      "source_page": 37
+    },
+    {
+      "text": "源程序量：根据最终申报范围选定统计口径。代码若有后续修改，必须重新生成统计及材料。",
+      "kind": "li",
+      "source_page": 37
+    },
+    {
+      "text": "申请人、开发完成日期、首次发表日期及权属信息未由用户提供，本材料不代填。代码鉴别材料是另一项交付，不等同于本操作说明书。",
+      "kind": "li",
+      "source_page": 37
+    }
+  ],
+  [
+    {
+      "text": "八、运行维护与常见问题",
+      "kind": "h1",
+      "source_page": 38
+    },
+    {
+      "text": "情况 ｜ 处理步骤",
+      "kind": "table",
+      "source_page": 38
+    },
+    {
+      "text": "服务未启动或页面打不开 ｜ 检查终端启动信息、解释器依赖和端口；必须在允许本地套接字的环境运行。受限沙箱报 Operation not permitted 时，改在正常终端运行。",
+      "kind": "table",
+      "source_page": 38
+    },
+    {
+      "text": "无查询结果 ｜ 检查数据来源与标签是否一致，清空关键词后重新查询。DrugBank 按原文英文关键词匹配。",
+      "kind": "table",
+      "source_page": 38
+    },
+    {
+      "text": "SMILES 解析失败 ｜ 检查结构字符串；可从已知记录详情直接带入。不得将普通名称当作 SMILES 输入。",
+      "kind": "table",
+      "source_page": 38
+    },
+    {
+      "text": "筛选结果不符合预期 ｜ 核对五个上限均需满足；检查来源选择及数值单位。更改条件后必须再次执行筛选，保存的是已执行结果。",
+      "kind": "table",
+      "source_page": 38
+    },
+    {
+      "text": "候选数量达到上限 ｜ 到候选对比移除现有条目，再加入其他分子。候选列表在当前浏览器 localStorage 中保存。",
+      "kind": "table",
+      "source_page": 38
+    },
+    {
+      "text": "备份与迁移 ｜ 停止服务后备份原始文件、源代码及 runtime/chemical.sqlite；浏览器候选列表与数据库筛选历史分别保存。历史归档也可单独导出 JSON。",
+      "kind": "table",
+      "source_page": 38
+    },
+    {
+      "text": "重新制作材料 ｜ 运行 generate_materials.sh，检查截图清单与 PDF；每次采集会新增一条示例筛选历史，不删除已有研究记录。",
+      "kind": "table",
+      "source_page": 38
+    }
+  ]
+]

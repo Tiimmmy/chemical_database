@@ -1,0 +1,112 @@
+{
+  "pages": 32,
+  "A4_portrait": true,
+  "encrypted": false,
+  "all_original_body_text_retained": true,
+  "original_pdf_unchanged": true,
+  "screenshot_pixel_checks": [
+    {
+      "output_page": 2,
+      "source_page": 6,
+      "screenshot": "screenshots/01-overview.png",
+      "same_pixels_as_source_pdf": true
+    },
+    {
+      "output_page": 4,
+      "source_page": 8,
+      "screenshot": "screenshots/02-search.png",
+      "same_pixels_as_source_pdf": true
+    },
+    {
+      "output_page": 6,
+      "source_page": 10,
+      "screenshot": "screenshots/03-search-filtered.png",
+      "same_pixels_as_source_pdf": true
+    },
+    {
+      "output_page": 8,
+      "source_page": 12,
+      "screenshot": "screenshots/04-detail.png",
+      "same_pixels_as_source_pdf": true
+    },
+    {
+      "output_page": 10,
+      "source_page": 14,
+      "screenshot": "screenshots/05-similarity.png",
+      "same_pixels_as_source_pdf": true
+    },
+    {
+      "output_page": 12,
+      "source_page": 16,
+      "screenshot": "screenshots/06-invalid.png",
+      "same_pixels_as_source_pdf": true
+    },
+    {
+      "output_page": 14,
+      "source_page": 18,
+      "screenshot": "screenshots/07-screen.png",
+      "same_pixels_as_source_pdf": true
+    },
+    {
+      "output_page": 16,
+      "source_page": 20,
+      "screenshot": "screenshots/08-run-detail.png",
+      "same_pixels_as_source_pdf": true
+    },
+    {
+      "output_page": 18,
+      "source_page": 22,
+      "screenshot": "screenshots/09-compare.png",
+      "same_pixels_as_source_pdf": true
+    },
+    {
+      "output_page": 20,
+      "source_page": 24,
+      "screenshot": "screenshots/10-quality.png",
+      "same_pixels_as_source_pdf": true
+    },
+    {
+      "output_page": 22,
+      "source_page": 26,
+      "screenshot": "screenshots/11-history.png",
+      "same_pixels_as_source_pdf": true
+    },
+    {
+      "output_page": 24,
+      "source_page": 28,
+      "screenshot": "screenshots/12-bbb.png",
+      "same_pixels_as_source_pdf": true
+    },
+    {
+      "output_page": 26,
+      "source_page": 30,
+      "screenshot": "screenshots/13-drugbank.png",
+      "same_pixels_as_source_pdf": true
+    },
+    {
+      "output_page": 28,
+      "source_page": 32,
+      "screenshot": "screenshots/14-drugbank-detail.png",
+      "same_pixels_as_source_pdf": true
+    },
+    {
+      "output_page": 30,
+      "source_page": 34,
+      "screenshot": "screenshots/15-empty.png",
+      "same_pixels_as_source_pdf": true
+    }
+  ],
+  "complete_screenshots": 15,
+  "labeled_zoom_views": 15,
+  "text_page_rows": [
+    50,
+    48
+  ],
+  "visual_samples": [
+    1,
+    10,
+    11,
+    32
+  ],
+  "verification": "passed"
+}

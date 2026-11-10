@@ -1,0 +1,160 @@
+{
+  "运行程序": {
+    "files": [
+      {
+        "path": "chemdb.py",
+        "physical_lines": 270,
+        "nonblank_lines": 246,
+        "bytes": 13668,
+        "sha256": "474305220d7c2cc532c3376f6e06acd5a7ca0225f047b1b4aa68157d1ccdde65"
+      },
+      {
+        "path": "server.py",
+        "physical_lines": 141,
+        "nonblank_lines": 128,
+        "bytes": 5900,
+        "sha256": "f08babe98df6e2a6602232adb3e962830fc9cc78757db6bd8215efc62e47474d"
+      },
+      {
+        "path": "web/index.html",
+        "physical_lines": 8,
+        "nonblank_lines": 8,
+        "bytes": 1064,
+        "sha256": "b4773bb5ae1d5956934bf92806c9cfab6475a7172a287936e5dd389786050e81"
+      },
+      {
+        "path": "web/app.js",
+        "physical_lines": 148,
+        "nonblank_lines": 148,
+        "bytes": 22841,
+        "sha256": "7a82b4ac411e6727d52059147b69b6111e85f6d6b91026158a6c82d5a61c0ddb"
+      },
+      {
+        "path": "web/style.css",
+        "physical_lines": 1,
+        "nonblank_lines": 1,
+        "bytes": 8887,
+        "sha256": "e61d670b07d8d17ddbc4fa725e56945096dcfbbad820a2cfd81a16f1cd1a1a41"
+      },
+      {
+        "path": "run.sh",
+        "physical_lines": 11,
+        "nonblank_lines": 11,
+        "bytes": 342,
+        "sha256": "68d52beb1a0389a34147ee0b94b45572f0d2b93540e894a8ec7adf67f75c4548"
+      }
+    ],
+    "physical_lines": 579,
+    "nonblank_lines": 542
+  },
+  "验证与文档工具": {
+    "files": [
+      {
+        "path": "tests/test_workbench.py",
+        "physical_lines": 57,
+        "nonblank_lines": 48,
+        "bytes": 2607,
+        "sha256": "7d7afc68cb2a7755a67a7831798f533b99e711b643a8026f0308eb2ef19bcf59"
+      },
+      {
+        "path": "tests/test_http.py",
+        "physical_lines": 63,
+        "nonblank_lines": 55,
+        "bytes": 2820,
+        "sha256": "e63d771e12be6e8b7c2be5f046d1843f10e2eaac3aa18035a6b58751b6672282"
+      },
+      {
+        "path": "tests/test_frontend.cjs",
+        "physical_lines": 12,
+        "nonblank_lines": 12,
+        "bytes": 669,
+        "sha256": "dfed61b19b1f5f184d92bb8d108905f99efc96d864eaff6a3ae35ab493151059"
+      },
+      {
+        "path": "tools/capture.py",
+        "physical_lines": 220,
+        "nonblank_lines": 210,
+        "bytes": 15828,
+        "sha256": "64be1f7bf3a058cc27dc0fe9e622a38e4e6a15525fcecded7b32b76a63fac291"
+      },
+      {
+        "path": "tools/build_manual.py",
+        "physical_lines": 135,
+        "nonblank_lines": 127,
+        "bytes": 17610,
+        "sha256": "729b2337b7cbdb6c8cce0cf3a194da32e742c0c621ca833d30515102316fa3a1"
+      },
+      {
+        "path": "tools/generate_materials.py",
+        "physical_lines": 54,
+        "nonblank_lines": 50,
+        "bytes": 2026,
+        "sha256": "ba3e0f498fb129b54502bbf7907a85bd6aa2a9704625b7c8d12ce01a80c65081"
+      }
+    ],
+    "physical_lines": 541,
+    "nonblank_lines": 502
+  },
+  "既有离线脚本": {
+    "files": [
+      {
+        "path": "data_collection/getDose.py",
+        "physical_lines": 69,
+        "nonblank_lines": 60,
+        "bytes": 2007,
+        "sha256": "92247e2cbfd72b2fa63b45d90a4196480ca98f95201fe3ff826a52a8e7312f42"
+      },
+      {
+        "path": "data_collection/get_DBWeb.py",
+        "physical_lines": 69,
+        "nonblank_lines": 53,
+        "bytes": 1620,
+        "sha256": "69fc10420671c389c6a7a8e44d54222a7ac8b338431a231c4612598a1cbb2cfe"
+      },
+      {
+        "path": "preprocessing/frag_renum.py",
+        "physical_lines": 12,
+        "nonblank_lines": 11,
+        "bytes": 363,
+        "sha256": "b7dfa5610b62ce0b3eaa3eaba71e518bba2c4797612467ada9deed1ef41973fc"
+      },
+      {
+        "path": "preprocessing/frag_sort.py",
+        "physical_lines": 12,
+        "nonblank_lines": 11,
+        "bytes": 306,
+        "sha256": "44a459233b8f6b8093cb111e0ca950f5a40a25d19fbe959c9721d5dc93dc984a"
+      },
+      {
+        "path": "preprocessing/generate_core.py",
+        "physical_lines": 36,
+        "nonblank_lines": 31,
+        "bytes": 1005,
+        "sha256": "787afa640f95384e15ca0a2e12b21787746dfd7150b12ef654b2405f5cad13ef"
+      },
+      {
+        "path": "preprocessing/pinjie_onetag.py",
+        "physical_lines": 92,
+        "nonblank_lines": 63,
+        "bytes": 2149,
+        "sha256": "50c77b140208f01189f763148353e5074b16397458e75d9e5feb384a12fc03f7"
+      },
+      {
+        "path": "preprocessing/quchong_new.py",
+        "physical_lines": 20,
+        "nonblank_lines": 18,
+        "bytes": 511,
+        "sha256": "c1c521e39898b4559405da39c629a9a9c24ac614a9d972a9571ab4ccb4416f00"
+      },
+      {
+        "path": "preprocessing/tagcore.py",
+        "physical_lines": 22,
+        "nonblank_lines": 18,
+        "bytes": 543,
+        "sha256": "765bafe3f0395b2f828b30387a3229f455075a4c750c50f9656650518a12867c"
+      }
+    ],
+    "physical_lines": 332,
+    "nonblank_lines": 265
+  }
+}

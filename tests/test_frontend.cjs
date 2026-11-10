@@ -1,0 +1,12 @@
+const fs = require('node:fs');
+const vm = require('node:vm');
+const assert = require('node:assert/strict');
+const code = fs.readFileSync('web/app.js','utf8').replace(/\nrender\(\);\s*$/,'');
+const sandbox = {localStorage:{getItem:()=>null},document:{addEventListener:()=>{}},window:{addEventListener:()=>{}}};
+vm.createContext(sandbox);
+vm.runInContext(code, sandbox);
+const title = vm.runInContext('heading("<img src=x onerror=alert(1)>", "<svg onload=alert(2)>")',sandbox);
+assert.ok(title.includes('&lt;img'));
+assert.ok(!title.includes('<img'));
+assert.ok(!title.includes('<svg'));
+console.log('PASS: persisted names and source text are escaped in page headings');

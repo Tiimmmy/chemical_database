@@ -1,0 +1,627 @@
+{
+  "source_pdf": "/home/mytu/Project/personal/chemical_database/deliverables/化合物数据与可解释筛选系统V1.0_软件操作说明书.pdf",
+  "source_sha256": "881d5cf0c4bb7678de94cc0aa74e16d8520f3ea5c5ad08ffa836a1701b89363a",
+  "source_pages": 38,
+  "source_html_sha256": "5632a6df9baeaa474fbdddb2d2ec5f3b42ab75f16d7548a764e55be5e10bf1c8",
+  "output_pdf": "/home/mytu/Project/personal/chemical_database/deliverables/化合物数据与可解释筛选系统V1.0_文档鉴别材料.pdf",
+  "output_sha256": "b7f724f0da288a03fdb304ac2f642ccc5711bd1fa3fc0eea8b83a084c14fe80d",
+  "output_pages": 32,
+  "full_screenshots": 15,
+  "additional_zoom_views": 15,
+  "pages": [
+    {
+      "output_page": 1,
+      "kind": "text",
+      "source_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "body_rows": 50
+    },
+    {
+      "output_page": 2,
+      "kind": "operation",
+      "source_pages": [
+        5,
+        6
+      ],
+      "body_rows": 13,
+      "screenshot": "screenshots/01-overview.png",
+      "screenshot_sha256": "dfc81a1b1fde0f45a1df56aa994cb49bd5869a834fb3c135839a707fa77e9906",
+      "image_rect": [
+        39.0,
+        242.52499999999998,
+        517.0,
+        348.975
+      ]
+    },
+    {
+      "output_page": 3,
+      "kind": "zoom",
+      "source_pages": [
+        6
+      ],
+      "body_rows": 0,
+      "screenshot": "screenshots/01-overview.png",
+      "screenshot_sha256": "dfc81a1b1fde0f45a1df56aa994cb49bd5869a834fb3c135839a707fa77e9906",
+      "crop": [
+        432,
+        132,
+        1700,
+        1596
+      ],
+      "image_rect": [
+        39.0,
+        217.62823529411764,
+        517.0,
+        485.37176470588236
+      ]
+    },
+    {
+      "output_page": 4,
+      "kind": "operation",
+      "source_pages": [
+        7,
+        8
+      ],
+      "body_rows": 13,
+      "screenshot": "screenshots/02-search.png",
+      "screenshot_sha256": "f8ee398acd91269f00d5b1410f631f7393912dca6cea4f7973a6e0b53f9aab73",
+      "image_rect": [
+        39.0,
+        170.6296875,
+        517.0,
+        420.8703125
+      ]
+    },
+    {
+      "output_page": 5,
+      "kind": "zoom",
+      "source_pages": [
+        8
+      ],
+      "body_rows": 0,
+      "screenshot": "screenshots/02-search.png",
+      "screenshot_sha256": "f8ee398acd91269f00d5b1410f631f7393912dca6cea4f7973a6e0b53f9aab73",
+      "crop": [
+        432,
+        132,
+        1700,
+        1952
+      ],
+      "image_rect": [
+        39.0,
+        109.36235294117648,
+        517.0,
+        593.6376470588235
+      ]
+    },
+    {
+      "output_page": 6,
+      "kind": "operation",
+      "source_pages": [
+        9,
+        10
+      ],
+      "body_rows": 13,
+      "screenshot": "screenshots/03-search-filtered.png",
+      "screenshot_sha256": "ba1e82169cf23b78dd6bf7c7e488a7e97da78b79926bb950659d401efe62eea0",
+      "image_rect": [
+        39.0,
+        248.1796875,
+        517.0,
+        343.3203125
+      ]
+    },
+    {
+      "output_page": 7,
+      "kind": "zoom",
+      "source_pages": [
+        10
+      ],
+      "body_rows": 0,
+      "screenshot": "screenshots/03-search-filtered.png",
+      "screenshot_sha256": "ba1e82169cf23b78dd6bf7c7e488a7e97da78b79926bb950659d401efe62eea0",
+      "crop": [
+        432,
+        132,
+        1700,
+        1568
+      ],
+      "image_rect": [
+        39.0,
+        226.1435294117647,
+        517.0,
+        476.8564705882353
+      ]
+    },
+    {
+      "output_page": 8,
+      "kind": "operation",
+      "source_pages": [
+        11,
+        12
+      ],
+      "body_rows": 13,
+      "screenshot": "screenshots/04-detail.png",
+      "screenshot_sha256": "cbcb1d6077efdc9354111a87a1caa419c282e7050815d5601e0b5553d7d3e891",
+      "image_rect": [
+        39.0,
+        188.40156249999995,
+        517.0,
+        403.09843750000005
+      ]
+    },
+    {
+      "output_page": 9,
+      "kind": "zoom",
+      "source_pages": [
+        12
+      ],
+      "body_rows": 0,
+      "screenshot": "screenshots/04-detail.png",
+      "screenshot_sha256": "cbcb1d6077efdc9354111a87a1caa419c282e7050815d5601e0b5553d7d3e891",
+      "crop": [
+        432,
+        132,
+        1700,
+        1864
+      ],
+      "image_rect": [
+        39.0,
+        136.12470588235294,
+        517.0,
+        566.8752941176471
+      ]
+    },
+    {
+      "output_page": 10,
+      "kind": "operation",
+      "source_pages": [
+        13,
+        14
+      ],
+      "body_rows": 13,
+      "screenshot": "screenshots/05-similarity.png",
+      "screenshot_sha256": "85e121f642adfcf0a26beb01dec2e759d2b983306606a277d7dc9b4785c8a0ad",
+      "image_rect": [
+        39.0,
+        100.75390625,
+        517.0,
+        490.74609375
+      ]
+    },
+    {
+      "output_page": 11,
+      "kind": "zoom",
+      "source_pages": [
+        14
+      ],
+      "body_rows": 0,
+      "screenshot": "screenshots/05-similarity.png",
+      "screenshot_sha256": "85e121f642adfcf0a26beb01dec2e759d2b983306606a277d7dc9b4785c8a0ad",
+      "crop": [
+        432,
+        132,
+        1700,
+        2000
+      ],
+      "image_rect": [
+        39.0,
+        94.76470588235293,
+        517.0,
+        608.2352941176471
+      ]
+    },
+    {
+      "output_page": 12,
+      "kind": "operation",
+      "source_pages": [
+        15,
+        16
+      ],
+      "body_rows": 13,
+      "screenshot": "screenshots/06-invalid.png",
+      "screenshot_sha256": "a1a4f9dde749038ac4c1f6e044dd4a86f01377e3fbc319af9f98248478bc4e6f",
+      "image_rect": [
+        39.0,
+        248.1796875,
+        517.0,
+        343.3203125
+      ]
+    },
+    {
+      "output_page": 13,
+      "kind": "zoom",
+      "source_pages": [
+        16
+      ],
+      "body_rows": 0,
+      "screenshot": "screenshots/06-invalid.png",
+      "screenshot_sha256": "a1a4f9dde749038ac4c1f6e044dd4a86f01377e3fbc319af9f98248478bc4e6f",
+      "crop": [
+        432,
+        132,
+        1700,
+        1568
+      ],
+      "image_rect": [
+        39.0,
+        226.1435294117647,
+        517.0,
+        476.8564705882353
+      ]
+    },
+    {
+      "output_page": 14,
+      "kind": "operation",
+      "source_pages": [
+        17,
+        18
+      ],
+      "body_rows": 13,
+      "screenshot": "screenshots/07-screen.png",
+      "screenshot_sha256": "83bd0f54c03123adfbdfb1febee168cabfc00cd605014a0c6979ff2f8f409d90",
+      "image_rect": [
+        39.0,
+        99.54218749999995,
+        517.0,
+        491.95781250000005
+      ]
+    },
+    {
+      "output_page": 15,
+      "kind": "zoom",
+      "source_pages": [
+        18
+      ],
+      "body_rows": 0,
+      "screenshot": "screenshots/07-screen.png",
+      "screenshot_sha256": "83bd0f54c03123adfbdfb1febee168cabfc00cd605014a0c6979ff2f8f409d90",
+      "crop": [
+        432,
+        132,
+        1700,
+        2000
+      ],
+      "image_rect": [
+        39.0,
+        94.76470588235293,
+        517.0,
+        608.2352941176471
+      ]
+    },
+    {
+      "output_page": 16,
+      "kind": "operation",
+      "source_pages": [
+        19,
+        20
+      ],
+      "body_rows": 13,
+      "screenshot": "screenshots/08-run-detail.png",
+      "screenshot_sha256": "ac93ebd310e0d842b98eef04259fb8fe0f69d17d92c2358fc32dfbb2053920f0",
+      "image_rect": [
+        39.0,
+        239.69765624999997,
+        517.0,
+        351.80234375000003
+      ]
+    },
+    {
+      "output_page": 17,
+      "kind": "zoom",
+      "source_pages": [
+        20
+      ],
+      "body_rows": 0,
+      "screenshot": "screenshots/08-run-detail.png",
+      "screenshot_sha256": "ac93ebd310e0d842b98eef04259fb8fe0f69d17d92c2358fc32dfbb2053920f0",
+      "crop": [
+        432,
+        132,
+        1700,
+        1610
+      ],
+      "image_rect": [
+        39.0,
+        213.37058823529406,
+        517.0,
+        489.62941176470594
+      ]
+    },
+    {
+      "output_page": 18,
+      "kind": "operation",
+      "source_pages": [
+        21,
+        22
+      ],
+      "body_rows": 13,
+      "screenshot": "screenshots/09-compare.png",
+      "screenshot_sha256": "7e4e0db8a9f5aee605b95ca945044885b38752236b85c4cb23ea1b33110f5a9f",
+      "image_rect": [
+        39.0,
+        196.47968749999995,
+        517.0,
+        395.02031250000005
+      ]
+    },
+    {
+      "output_page": 19,
+      "kind": "zoom",
+      "source_pages": [
+        22
+      ],
+      "body_rows": 0,
+      "screenshot": "screenshots/09-compare.png",
+      "screenshot_sha256": "7e4e0db8a9f5aee605b95ca945044885b38752236b85c4cb23ea1b33110f5a9f",
+      "crop": [
+        432,
+        132,
+        1700,
+        1824
+      ],
+      "image_rect": [
+        39.0,
+        148.28941176470585,
+        517.0,
+        554.7105882352942
+      ]
+    },
+    {
+      "output_page": 20,
+      "kind": "operation",
+      "source_pages": [
+        23,
+        24
+      ],
+      "body_rows": 14,
+      "screenshot": "screenshots/10-quality.png",
+      "screenshot_sha256": "bd301c64de59d8c0be188739e7ba0d54ced13b6606fe23afe037890c58ff189b",
+      "image_rect": [
+        39.0,
+        227.6015625,
+        517.0,
+        351.3984375
+      ]
+    },
+    {
+      "output_page": 21,
+      "kind": "zoom",
+      "source_pages": [
+        24
+      ],
+      "body_rows": 0,
+      "screenshot": "screenshots/10-quality.png",
+      "screenshot_sha256": "bd301c64de59d8c0be188739e7ba0d54ced13b6606fe23afe037890c58ff189b",
+      "crop": [
+        432,
+        132,
+        1700,
+        1608
+      ],
+      "image_rect": [
+        39.0,
+        213.97882352941173,
+        517.0,
+        489.0211764705883
+      ]
+    },
+    {
+      "output_page": 22,
+      "kind": "operation",
+      "source_pages": [
+        25,
+        26
+      ],
+      "body_rows": 13,
+      "screenshot": "screenshots/11-history.png",
+      "screenshot_sha256": "2a209ec939a8a735aec4baa381e86ebabc46a351dc37d0420ed5df8a7b17ea82",
+      "image_rect": [
+        39.0,
+        248.1796875,
+        517.0,
+        343.3203125
+      ]
+    },
+    {
+      "output_page": 23,
+      "kind": "zoom",
+      "source_pages": [
+        26
+      ],
+      "body_rows": 0,
+      "screenshot": "screenshots/11-history.png",
+      "screenshot_sha256": "2a209ec939a8a735aec4baa381e86ebabc46a351dc37d0420ed5df8a7b17ea82",
+      "crop": [
+        432,
+        132,
+        1700,
+        1568
+      ],
+      "image_rect": [
+        39.0,
+        226.1435294117647,
+        517.0,
+        476.8564705882353
+      ]
+    },
+    {
+      "output_page": 24,
+      "kind": "operation",
+      "source_pages": [
+        27,
+        28
+      ],
+      "body_rows": 13,
+      "screenshot": "screenshots/12-bbb.png",
+      "screenshot_sha256": "76ed075d7185f97541c344a665a4be6a6b555daa6af4023f00983bd5dbad3f06",
+      "image_rect": [
+        39.0,
+        170.6296875,
+        517.0,
+        420.8703125
+      ]
+    },
+    {
+      "output_page": 25,
+      "kind": "zoom",
+      "source_pages": [
+        28
+      ],
+      "body_rows": 0,
+      "screenshot": "screenshots/12-bbb.png",
+      "screenshot_sha256": "76ed075d7185f97541c344a665a4be6a6b555daa6af4023f00983bd5dbad3f06",
+      "crop": [
+        432,
+        132,
+        1700,
+        1952
+      ],
+      "image_rect": [
+        39.0,
+        109.36235294117648,
+        517.0,
+        593.6376470588235
+      ]
+    },
+    {
+      "output_page": 26,
+      "kind": "operation",
+      "source_pages": [
+        29,
+        30
+      ],
+      "body_rows": 13,
+      "screenshot": "screenshots/13-drugbank.png",
+      "screenshot_sha256": "a91b9ffe9ca137434a6e7c0449854a04a4f1d230b0c1aa3a3c1e03dfe975503e",
+      "image_rect": [
+        39.0,
+        248.1796875,
+        517.0,
+        343.3203125
+      ]
+    },
+    {
+      "output_page": 27,
+      "kind": "zoom",
+      "source_pages": [
+        30
+      ],
+      "body_rows": 0,
+      "screenshot": "screenshots/13-drugbank.png",
+      "screenshot_sha256": "a91b9ffe9ca137434a6e7c0449854a04a4f1d230b0c1aa3a3c1e03dfe975503e",
+      "crop": [
+        432,
+        132,
+        1700,
+        1568
+      ],
+      "image_rect": [
+        39.0,
+        226.1435294117647,
+        517.0,
+        476.8564705882353
+      ]
+    },
+    {
+      "output_page": 28,
+      "kind": "operation",
+      "source_pages": [
+        31,
+        32
+      ],
+      "body_rows": 13,
+      "screenshot": "screenshots/14-drugbank-detail.png",
+      "screenshot_sha256": "861488c4030130d63f570226936c4cbd98a36295e039b2f531fdd6454b0c6f55",
+      "image_rect": [
+        39.0,
+        120.54531249999997,
+        517.0,
+        470.95468750000003
+      ]
+    },
+    {
+      "output_page": 29,
+      "kind": "zoom",
+      "source_pages": [
+        32
+      ],
+      "body_rows": 0,
+      "screenshot": "screenshots/14-drugbank-detail.png",
+      "screenshot_sha256": "861488c4030130d63f570226936c4cbd98a36295e039b2f531fdd6454b0c6f55",
+      "crop": [
+        432,
+        132,
+        1700,
+        2000
+      ],
+      "image_rect": [
+        39.0,
+        94.76470588235293,
+        517.0,
+        608.2352941176471
+      ]
+    },
+    {
+      "output_page": 30,
+      "kind": "operation",
+      "source_pages": [
+        33,
+        34
+      ],
+      "body_rows": 13,
+      "screenshot": "screenshots/15-empty.png",
+      "screenshot_sha256": "246ca4c6b40646db006d7490c74d052f1434294174cd266f574ffefd3aafd2d4",
+      "image_rect": [
+        39.0,
+        248.1796875,
+        517.0,
+        343.3203125
+      ]
+    },
+    {
+      "output_page": 31,
+      "kind": "zoom",
+      "source_pages": [
+        34
+      ],
+      "body_rows": 0,
+      "screenshot": "screenshots/15-empty.png",
+      "screenshot_sha256": "246ca4c6b40646db006d7490c74d052f1434294174cd266f574ffefd3aafd2d4",
+      "crop": [
+        432,
+        132,
+        1700,
+        1568
+      ],
+      "image_rect": [
+        39.0,
+        226.1435294117647,
+        517.0,
+        476.8564705882353
+      ]
+    },
+    {
+      "output_page": 32,
+      "kind": "text",
+      "source_pages": [
+        35,
+        36,
+        37,
+        38
+      ],
+      "body_rows": 48
+    }
+  ],
+  "content_edits": [
+    "仅将操作页“对应下一页完整界面截图”改为“对应本页完整界面截图”，适配图文合页；正文与原图完整保留。"
+  ],
+  "rule_sources": [
+    "https://www.ncac.gov.cn/xxfb/flfg/bmgz/202410/t20241015_869486.html",
+    "https://banshi.beijing.gov.cn/pubtask/task/1/110000000000/3e283672-76be-4c8c-98e8-0bebe9bd06bf_app.html"
+  ]
+}

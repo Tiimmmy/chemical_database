@@ -1,0 +1,26 @@
+{
+  "pdf_pages": 16,
+  "page_rows": [
+    52,
+    52,
+    52,
+    52,
+    52,
+    52,
+    52,
+    51,
+    51,
+    51,
+    51,
+    51,
+    51,
+    51,
+    51,
+    51
+  ],
+  "all_source_fragments_extractable": true,
+  "archive_matches_originals": true,
+  "source_files_unchanged": true,
+  "A4_portrait": true,
+  "final_module_end": "web/app.js render();"
+}

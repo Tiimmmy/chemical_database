@@ -1,0 +1,135 @@
+"""Build a source-backed Chinese manual; final PDF requires verified real screenshots."""
+import argparse
+import hashlib
+import html
+import json
+import sys
+from datetime import date
+from pathlib import Path
+
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT))
+OUT=ROOT/'deliverables'
+NAME='化合物数据与可解释筛选系统'
+VERSION='V1.0'
+
+
+def source_inventory():
+    groups={'运行程序':['chemdb.py','server.py','web/index.html','web/app.js','web/style.css','run.sh'],
+            '验证与文档工具':['tests/test_workbench.py','tests/test_http.py','tests/test_frontend.cjs','tools/capture.py','tools/build_manual.py','tools/generate_materials.py'],
+            '既有离线脚本':[str(p.relative_to(ROOT)) for folder in ('data_collection','preprocessing') for p in sorted((ROOT/folder).glob('*.py'))]}
+    result={}
+    for category,files in groups.items():
+        records=[]
+        for relative in files:
+            file=ROOT/relative
+            if not file.exists():continue
+            content=file.read_bytes();lines=content.decode('utf-8').splitlines()
+            records.append({'path':relative,'physical_lines':len(lines),'nonblank_lines':sum(bool(l.strip()) for l in lines),
+                            'bytes':len(content),'sha256':hashlib.sha256(content).hexdigest()})
+        result[category]={'files':records,'physical_lines':sum(r['physical_lines'] for r in records),
+                          'nonblank_lines':sum(r['nonblank_lines'] for r in records)}
+    OUT.mkdir(exist_ok=True)
+    (OUT/'source-inventory.json').write_text(json.dumps(result,ensure_ascii=False,indent=2))
+    return result
+
+
+def escape(v):return html.escape(str(v))
+
+
+def build(draft=False):
+    inventory=source_inventory()
+    manifest_file=OUT/'screenshot-manifest.json'
+    if not draft and not manifest_file.exists():
+        raise RuntimeError('缺少实际运行截图清单。请先运行 tools/generate_materials.py；不生成带占位截图的最终 PDF。')
+    manifest=json.loads(manifest_file.read_text()) if manifest_file.exists() else None
+    if manifest and not draft:
+        if manifest.get('js_errors') or len(manifest.get('screenshots',[]))!=15:
+            raise RuntimeError('截图验证不完整')
+        hashes=manifest.get('source_hashes',{})
+        if len(hashes)!=9:
+            raise RuntimeError('截图缺少程序与数据版本证据，请重新采集')
+        for name,digest in hashes.items():
+            if hashlib.sha256((ROOT/name).read_bytes()).hexdigest()!=digest:
+                raise RuntimeError('截图采集后程序或数据已变更，请重新采集：'+name)
+        for shot in manifest['screenshots']:
+            f=OUT/shot['file']
+            if hashlib.sha256(f.read_bytes()).hexdigest()!=shot['sha256']:
+                raise RuntimeError('截图校验失败：'+shot['file'])
+    from chemdb import Store
+    store=Store(ROOT);quality=store.quality()
+    pages=[]
+    def page(title,body,cls=''):
+        pages.append(f'<section class="page {cls}"><div class="page-top">{NAME} {VERSION} <span>软件操作说明书</span></div><h1>{title}</h1>{body}<div class="page-bottom">{NAME} {VERSION} · 文档鉴别材料 <span>第 {len(pages)+1} 页</span></div></section>')
+    page('软件操作说明书',f'<div class="cover"><p class="kicker">CHEM ATLAS · 用户操作与功能说明</p><h2>{NAME}<br>{VERSION}</h2><div class="cover-line"></div><p>文档鉴别材料 · 真实运行界面与操作流程</p><p>编制日期：{date.today().isoformat()}</p><p>运行方式：本地浏览器 / Python 服务 / SQLite 索引</p><p>软件名称与版本为本项目当前标识，提交前请与申请表一致。</p>{"<strong>编写稿：当前环境禁止启动服务，尚未生成运行截图与最终 PDF。</strong>" if draft else "<p>界面证据通过实际浏览器操作采集，原图和 SHA256 清单随文档保留。</p>"}</div>','cover-page')
+    page('一、软件概述与功能范围','''<p>本软件面向化合物数据整理与早期研究筛选，读取项目现有化合物、血脑屏障标签及 DrugBank 资料，将数据查询、分子结构计算、相似结构探索、可解释筛选和研究证据归档串联为一个本地工作流程。</p>
+    <table><tr><th>功能模块</th><th>主要操作与输出</th></tr>
+    <tr><td>数据总览</td><td>统计三个数据来源、可解析结构、唯一结构并提供研究入口。</td></tr>
+    <tr><td>多源检索与详情</td><td>按来源、关键词和标签查询、分页、CSV 导出；展示来源行号、结构、计算性质与原始字段。</td></tr>
+    <tr><td>相似结构探索</td><td>输入或带入 SMILES，设置阈值，以 Morgan 指纹和 Tanimoto 系数计算相似结构。</td></tr>
+    <tr><td>可解释筛选</td><td>同时应用五项性质上限，列出命中依据，导出完整命中结果。</td></tr>
+    <tr><td>候选分子对比</td><td>最多三个候选并列展示结构和性质，支持移除与清空。</td></tr>
+    <tr><td>质量与溯源</td><td>展示非法、缺失、源内重复统计及来源文件 SHA256。</td></tr>
+    <tr><td>筛选记录</td><td>保存参数、命中标识、数据指纹及库版本，查看历史和导出 JSON。</td></tr></table>
+    <p>软件不包含训练模型、活性预测或自动实验决策。activity 与 BBB 为原始来源标签。原有采集和片段脚本继续保留，但不属于本次工作台界面功能。</p>''')
+    page('二、运行环境与启动操作',f'''<table><tr><th>项目</th><th>本次实现与验证环境</th></tr>
+    <tr><td>操作系统</td><td>Linux，本项目目录 {escape(ROOT)}</td></tr><tr><td>解释器</td><td>Python 3.12；建议独立虚拟环境</td></tr>
+    <tr><td>化学计算</td><td>RDKit {escape(quality['rdkit'])}</td></tr><tr><td>其他依赖</td><td>openpyxl 读取 XLSX；SQLite 随 Python 提供；Playwright 用于截图和 PDF</td></tr><tr><td>浏览器</td><td>Google Chrome；页面无需远程脚本、字体或在线接口</td></tr></table>
+    <ol><li>确认三个源数据文件保持原目录结构，安装 requirements.txt 列出的依赖。</li><li>在项目根目录执行 <code>./run.sh</code>。可通过 CHEMDB_PYTHON 指定解释器。</li><li>首次运行生成 runtime/chemical.sqlite 索引，终端显示服务地址后再打开页面。</li><li>浏览器访问 <code>http://127.0.0.1:8765</code>。仅监听本地回环地址，无登录步骤。</li><li>关闭页面不影响服务；在运行终端按 Ctrl+C 停止。重新启动后筛选历史继续保留。</li></ol>
+    <p>端口占用时可执行 <code>./run.sh --port 8766</code>，并访问相应地址。源数据变更时再次启动会重建对应索引；历史记录中的旧文件指纹仍保留。</p>''')
+    source_rows=''.join(f'<tr><td>{escape(s["path"])}</td><td>{s["rows"]:,}</td><td>{s["invalid"]}</td><td>{s["missing"]}</td><td>{s["duplicates"]}</td></tr>' for s in quality['sources'])
+    page('三、数据口径与连续操作路线',f'''<table><tr><th>数据文件</th><th>记录数</th><th>非法结构</th><th>缺失结构</th><th>源内重复</th></tr>{source_rows}</table>
+    <p>记录数按来源行统计，保留重复来源；唯一结构按 RDKit 规范化 SMILES 统计。DrugBank 不含 SMILES，未将其所有条目计入缺失结构。非法结构不参与计算筛选。MW 单位为 g/mol，TPSA 为 Å²，LogP 无量纲，HBD/HBA 分别为氢键供体/受体计数。</p>
+    <p>推荐连续流程：启动软件 → 核对总览 → 检索 tmy0 → 阅读结构与来源 → 将其带入相似探索 → 设置五项性质条件 → 执行并导出筛选 → 加入候选对比 → 保存筛选记录 → 核对来源指纹 → 下载证据 JSON。</p>
+    <p>DrugBank 使用独立资料阅读路径：选择该来源 → 按 ID 或原文关键词查询 → 查看药理资料字段。不存在结构时，结构计算与对比功能不对该记录启用。</p>
+    <p>下列操作章节配有全页面原始截图。截图文件以 2 倍像素密度保存，无重绘、拼接或结果替换。长页面采用完整页面截图，以保持功能区域完整。</p>''')
+    if manifest and not draft:
+        for i,shot in enumerate(manifest['screenshots'],1):
+            steps=''.join('<li>'+escape(s)+'</li>' for s in shot['steps'])
+            page(f'四、功能操作 {i:02d} · {escape(shot["title"])}',f'<ol>{steps}</ol><h2>操作结果与说明</h2><p>{escape(shot["result"])}</p><h2>截图证据</h2><p>对应下一页完整界面截图：{escape(shot["file"])}</p><p>实际访问地址：<code>{escape(shot["url"])}</code></p><p>采集时间（UTC）：{escape(shot["captured_at"])}</p><p>原始尺寸：{shot["width"]} × {shot["height"]} 像素</p><p class="hash">SHA256：{shot["sha256"]}</p>')
+            page(f'图 {i:02d} · {escape(shot["title"])}',f'<img class="screenshot" src="{escape(shot["file"])}" alt="{escape(shot["title"])}">','screenshot-page')
+    else:
+        page('四、截图采集待执行','<p>本编写稿尚不包含界面截图。请在允许本地服务与浏览器启动的普通终端运行：</p><pre>./generate_materials.sh</pre><p>脚本依次执行 15 个真实界面状态、下载校验和截图，成功后生成正式 PDF、原始 PNG、截图清单和源码统计。任一步骤失败时会停止，不使用占位图替代。</p><p>采集涵盖：总览、检索列表、关键词查询与导出、结构详情、相似搜索、非法输入、可解释筛选、归档详情、候选对比、质量溯源、历史、BBB 标签查询、DrugBank 查询与详情、空结果。</p>')
+    page('五、技术特点及实现对应关系','''<table><tr><th>技术特点</th><th>实际实现及边界</th></tr>
+    <tr><td>多源字段保留与结构关联</td><td>独立保存来源、行号、原始字段和规范化 SMILES。仅结构完全相同时提供关联，不根据名称或描述猜测对应关系。</td></tr>
+    <tr><td>透明的相似结构探索</td><td>Morgan 半径 2、2048 位指纹；Tanimoto 系数；保留来源行，按相似度降序，最多返回前 60 条。</td></tr>
+    <tr><td>可解释多条件筛选</td><td>统一计算 MW、LogP、HBD、HBA、TPSA，以包含边界的 AND 逻辑筛选；逐项展示数值与阈值。</td></tr>
+    <tr><td>筛选证据归档</td><td>服务端重新核验条件与命中 ID，保存全部 ID、前 100 条结果快照、来源文件 SHA256 和 RDKit 版本；支持 JSON 复核。</td></tr>
+    <tr><td>计算值与原值并存</td><td>主表使用统一计算口径，详情保留原始性质字段，便于追踪口径差异。</td></tr>
+    <tr><td>本地可复建索引</td><td>SQLite 持久化；启动时校验来源文件内容指纹，未变更来源复用索引。</td></tr></table>
+    <p>上述内容描述本软件实际技术实现与组合特点，不作原创算法或法律新颖性认定。第三方库及原始数据来源须按实际权属和许可另行核对。</p>''')
+    rows=''.join(f'<tr><td>{escape(category)}</td><td>{len(info["files"])}</td><td>{info["physical_lines"]}</td><td>{info["nonblank_lines"]}</td></tr>' for category,info in inventory.items())
+    page('六、源程序量与申请表一致性核对',f'''<table><tr><th>统计类别</th><th>文件数</th><th>物理行数</th><th>非空行数</th></tr>{rows}</table>
+    <p>物理行数按 UTF-8 文本 splitlines() 统计，包含注释及空行；非空行数只排除空白行，并不等同于可执行语句数。数据集、图片、PDF、缓存、第三方依赖和配置说明不计入运行程序。所有逐文件行数与 SHA256 保存在 source-inventory.json 中。</p>
+    <p>运行程序包括 chemdb.py、server.py、web/index.html、web/app.js、web/style.css 和 run.sh。验证和材料生成工具另列；旧采集与片段脚本并非本次界面入口，不与运行程序量混算。</p>
+''')
+    page('七、申请表内容一致性核对',f'''<p>以下核对项用于使材料与实际申请范围保持一致。</p><ol><li>软件名称及版本：本材料采用“{NAME} {VERSION}”，提交时应与申请表及源代码页眉保持一致。</li><li>主要功能：以本说明书的七个功能模块和实际界面为准；不填写本项目未实现的训练预测、在线抓取或片段生成界面。</li><li>技术特点：可采用上一节描述，保留算法和数据口径边界。</li><li>源程序量：根据最终申报范围选定统计口径。代码若有后续修改，必须重新生成统计及材料。</li><li>申请人、开发完成日期、首次发表日期及权属信息未由用户提供，本材料不代填。代码鉴别材料是另一项交付，不等同于本操作说明书。</li></ol>''')
+    page('八、运行维护与常见问题','''<table><tr><th>情况</th><th>处理步骤</th></tr>
+    <tr><td>服务未启动或页面打不开</td><td>检查终端启动信息、解释器依赖和端口；必须在允许本地套接字的环境运行。受限沙箱报 Operation not permitted 时，改在正常终端运行。</td></tr>
+    <tr><td>无查询结果</td><td>检查数据来源与标签是否一致，清空关键词后重新查询。DrugBank 按原文英文关键词匹配。</td></tr>
+    <tr><td>SMILES 解析失败</td><td>检查结构字符串；可从已知记录详情直接带入。不得将普通名称当作 SMILES 输入。</td></tr>
+    <tr><td>筛选结果不符合预期</td><td>核对五个上限均需满足；检查来源选择及数值单位。更改条件后必须再次执行筛选，保存的是已执行结果。</td></tr>
+    <tr><td>候选数量达到上限</td><td>到候选对比移除现有条目，再加入其他分子。候选列表在当前浏览器 localStorage 中保存。</td></tr>
+    <tr><td>备份与迁移</td><td>停止服务后备份原始文件、源代码及 runtime/chemical.sqlite；浏览器候选列表与数据库筛选历史分别保存。历史归档也可单独导出 JSON。</td></tr>
+    <tr><td>重新制作材料</td><td>运行 generate_materials.sh，检查截图清单与 PDF；每次采集会新增一条示例筛选历史，不删除已有研究记录。</td></tr></table>''')
+    style='''@page{size:A4 landscape;margin:0}*{box-sizing:border-box}body{margin:0;color:#19313c;font:11pt/1.65 "Noto Sans CJK SC","Microsoft YaHei",sans-serif;background:#e7ebef}.page{width:297mm;height:210mm;padding:18mm 15mm 16mm;background:white;position:relative;break-after:page;overflow:hidden;margin:0 auto 5mm}.page:last-child{break-after:auto}.page-top{position:absolute;top:6mm;left:15mm;right:15mm;border-bottom:1px solid #d8e3e9;padding-bottom:2mm;font-size:8pt;color:#63828e;display:flex;justify-content:space-between}.page-bottom{position:absolute;bottom:5mm;left:15mm;right:15mm;display:flex;justify-content:space-between;font-size:8pt;color:#7e939c;border-top:1px solid #e1e8eb;padding-top:2mm}h1{font-size:19pt;line-height:1.4;margin:0 0 7mm;color:#126b77}h2{font-size:14pt;margin:5mm 0 3mm}p{margin:3mm 0}table{border-collapse:collapse;width:100%;font-size:10pt;line-height:1.65;margin:5mm 0}th,td{border:1px solid #d7e3e7;padding:2mm 3mm;vertical-align:top}th{background:#eaf3f5;text-align:left}td:first-child{min-width:37mm}ol{padding-left:8mm}li{margin-bottom:2mm}.cover{padding:10mm 14mm}.cover h2{font-size:32pt;line-height:1.55}.cover p{color:#647d88}.cover-line{height:3px;background:#108697;width:50mm;margin:8mm 0}.kicker{letter-spacing:2px}.hash,code{font-size:9pt;overflow-wrap:anywhere}.screenshot-page{padding:17mm 7mm 13mm}.screenshot-page h1{font-size:12pt;margin-bottom:3mm;padding-left:8mm}.screenshot{display:block;width:283mm;height:171mm;object-fit:contain;object-position:top center}pre{background:#f0f5f7;padding:4mm;font-size:12pt}@media print{body{background:white}.page{margin:0}}'''
+    document=f'<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>{NAME} {VERSION} 软件操作说明书</title><style>{style}</style></head><body>'+''.join(pages)+'</body></html>'
+    file=OUT/('manual-draft.html' if draft else 'manual.html')
+    file.write_text(document,encoding='utf-8')
+    if draft:return file
+    from playwright.sync_api import sync_playwright
+    with sync_playwright() as p:
+        browser=p.chromium.launch(headless=True,channel='chrome')
+        page=browser.new_page()
+        page.goto(file.as_uri());page.evaluate('document.fonts.ready')
+        page.wait_for_function('Array.from(document.images).every(i=>i.complete&&i.naturalWidth>0)')
+        overflow=page.locator('.page').evaluate_all('''(els)=>els.map((e,i)=>{const r=e.getBoundingClientRect(); const footer=e.querySelector(".page-bottom").getBoundingClientRect(); const children=Array.from(e.children).filter(c=>!c.classList.contains("page-top")&&!c.classList.contains("page-bottom")); return {page:i+1,overflow:e.scrollHeight>e.clientHeight+1||children.some(c=>c.getBoundingClientRect().bottom>footer.top-4)};}).filter(x=>x.overflow)''')
+        if overflow:raise RuntimeError('文档分页溢出：'+str(overflow))
+        page.pdf(path=str(OUT/f'{NAME}{VERSION}_软件操作说明书.pdf'),print_background=True,prefer_css_page_size=True)
+        browser.close()
+    (OUT/'document-build.json').write_text(json.dumps({'pages':len(pages),'screenshots':len(manifest['screenshots']),'date':date.today().isoformat()},ensure_ascii=False,indent=2))
+    return file
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser();parser.add_argument('--draft',action='store_true')
+    print(build(parser.parse_args().draft))
